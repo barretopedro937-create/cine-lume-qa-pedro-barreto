@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Testes automáticos — CineLume</title>
+  <style>
+    body { font-family: 'Segoe UI', Roboto, Arial, sans-serif; background: #0f1420; color: #eef1f7; margin: 0; padding: 32px; }
+    h1 { color: #f5b83d; margin-top: 0; }
+    .placar { font-size: 1.2rem; font-weight: 700; margin-bottom: 20px; }
+    table { border-collapse: collapse; width: 100%; max-width: 1100px; }
+    th, td { text-align: left; padding: 8px 12px; border-bottom: 1px solid #2e3a56; vertical-align: top; }
+    th { color: #a9b3c9; }
+    .passou { color: #7fe0a8; font-weight: 700; }
+    .falhou { color: #ff8a8a; font-weight: 700; }
+    code { color: #f5b83d; }
+  </style>
+</head>
+<body>
+  <h1>Testes automáticos — CineLume</h1>
+  <p class="placar" id="placar"></p>
+  <table>
+    <thead>
+      <tr><th>ID</th><th>Descrição</th><th>Esperado</th><th>Obtido</th><th>Resultado</th></tr>
+    </thead>
+    <tbody id="resultados"></tbody>
+  </table>
+
+  <script src="../js/dados.js"></script>
+  <script src="../js/regras.js"></script>
+  <script>
+    const resultados = [];
+
+    function iguais(obtido, esperado) {
+      if (typeof obtido === 'number' && typeof esperado === 'number') {
+        return Math.abs(obtido - esperado) < 0.001;
+      }
+      return JSON.stringify(obtido) === JSON.stringify(esperado);
+    }
+
+    function testar(id, descricao, obtido, esperado) {
+      resultados.push({ id: id, descricao: descricao, obtido: obtido, esperado: esperado, passou: iguais(obtido, esperado) });
+    }
+
+    function sessao(id) {
+      for (const filme of FILMES) {
+        for (const s of filme.sessoes) {
+          if (s.id === id) {
+            return s;
+          }
+        }
+      }
+      return null;
+    }
+
+    function mostrarResultados() {
+      const corpo = document.getElementById('resultados');
+      resultados.forEach(function (r) {
+        const linha = document.createElement('tr');
+        [r.id, r.descricao, JSON.stringify(r.esperado), JSON.stringify(r.obtido)].forEach(function (texto) {
+          const celula = document.createElement('td');
+          celula.textContent = texto;
+          linha.appendChild(celula);
+        });
+        const status = document.createElement('td');
+        status.textContent = r.passou ? 'PASSOU' : 'FALHOU';
+        status.className = r.passou ? 'passou' : 'falhou';
+        linha.appendChild(status);
+        corpo.appendChild(linha);
+      });
+      const aprovados = resultados.filter(function (r) { return r.passou; }).length;
+      document.getElementById('placar').textContent = aprovados + ' de ' + resultados.length + ' testes passaram.';
+    }
+
+    testar('AT-EX1', 'E-mail com @ e domínio é aceito', validarEmail('ana@exemplo.com'), true);
+    testar('AT-EX2', 'Sessão 2D das 21:00 com 2 inteiras custa R$ 64,00', calcularIngressos(sessao('far-2100'), 2, 0, 32), 64);
+
+
+
+
+    mostrarResultados();
+  </script>
+</body>
+</html>

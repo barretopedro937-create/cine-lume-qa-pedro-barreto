@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CineLume — Compra de ingressos</title>
+  <link rel="stylesheet" href="css/estilo.css">
+</head>
+<body>
+  <header class="topo">
+    <div class="marca">
+      <span class="logo">CineLume</span>
+      <span class="slogan">Compra de ingressos online · versão 1.0</span>
+    </div>
+  </header>
+
+  <main class="layout">
+    <div class="etapas">
+      <section class="etapa" id="etapa-filme">
+        <h2><span class="numero">1</span> Filme e sessão</h2>
+        <div id="filmes" class="filmes"></div>
+      </section>
+
+      <section class="etapa" id="etapa-assentos">
+        <h2><span class="numero">2</span> Assentos</h2>
+        <p id="sessaoEscolhida" class="aviso">Escolha uma sessão para ver os assentos.</p>
+        <div class="sala">
+          <div class="tela">TELA</div>
+          <div id="mapa" class="mapa"></div>
+          <div class="legenda">
+            <span><i class="amostra livre"></i> Livre</span>
+            <span><i class="amostra selecionado"></i> Selecionado</span>
+            <span><i class="amostra ocupado"></i> Ocupado</span>
+          </div>
+        </div>
+        <p id="assentosEscolhidos" class="assentos-escolhidos">Nenhum assento selecionado.</p>
+        <div class="campo campo-linha">
+          <label for="qtdMeia">Quantos ingressos são meia-entrada?</label>
+          <input type="number" id="qtdMeia" min="0" value="0">
+        </div>
+      </section>
+
+      <section class="etapa" id="etapa-bomboniere">
+        <h2><span class="numero">3</span> Bomboniere</h2>
+        <div id="bomboniere" class="bomboniere"></div>
+      </section>
+
+      <section class="etapa" id="etapa-dados">
+        <h2><span class="numero">4</span> Seus dados</h2>
+        <div class="grade-campos">
+          <div class="campo">
+            <label for="nome">Nome completo</label>
+            <input type="text" id="nome" autocomplete="off">
+          </div>
+          <div class="campo">
+            <label for="cpf">CPF</label>
+            <input type="text" id="cpf" placeholder="000.000.000-00" autocomplete="off">
+          </div>
+          <div class="campo">
+            <label for="email">E-mail</label>
+            <input type="text" id="email" placeholder="voce@exemplo.com" autocomplete="off">
+          </div>
+          <div class="campo">
+            <label for="celular">Celular (opcional)</label>
+            <input type="text" id="celular" placeholder="(81) 90000-0000" autocomplete="off">
+          </div>
+        </div>
+      </section>
+
+      <section class="etapa" id="etapa-pagamento">
+        <h2><span class="numero">5</span> Cupom e pagamento</h2>
+        <div class="campo campo-linha">
+          <label for="cupom">Cupom de desconto</label>
+          <input type="text" id="cupom" placeholder="Digite o cupom" autocomplete="off">
+          <button type="button" id="aplicarCupom" class="botao-secundario">Aplicar</button>
+        </div>
+        <p id="msgCupom" class="msg-cupom"></p>
+        <fieldset class="pagamento">
+          <legend>Forma de pagamento</legend>
+          <label class="opcao"><input type="radio" name="pagamento" value="pix"> Pix (5% de desconto)</label>
+          <label class="opcao"><input type="radio" name="pagamento" value="cartao"> Cartão de crédito</label>
+        </fieldset>
+        <div class="campo campo-linha" id="blocoParcelas" hidden>
+          <label for="parcelas">Parcelas</label>
+          <select id="parcelas"></select>
+        </div>
+      </section>
+    </div>
+
+    <aside class="resumo">
+      <h2>Resumo do pedido</h2>
+      <div id="resumoFilme" class="resumo-filme">Nenhuma sessão escolhida.</div>
+      <dl id="resumoValores" class="resumo-valores"></dl>
+      <div class="total">
+        <span>Total</span>
+        <strong id="total">R$ 0,00</strong>
+      </div>
+      <p id="infoParcelas" class="info-parcelas"></p>
+      <button type="button" id="confirmar" class="botao-principal">Confirmar compra</button>
+      <div id="mensagens" class="mensagens" role="alert"></div>
+    </aside>
+  </main>
+
+  <section id="confirmacao" class="confirmacao" hidden></section>
+
+  <section class="historico">
+    <h2>Minhas compras</h2>
+    <ul id="historico"></ul>
+  </section>
+
+  <script src="js/dados.js"></script>
+  <script src="js/regras.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
